@@ -3,7 +3,22 @@ const server = require('./function/server-files');
 
 module.exports.handler = function (event, context, callback) {
 
-	server.execute(event, context)
+	let customCallback = function (error, response) {
+		console.log('custom callback')
 
- //    callback(null, response)
+		if (error) {
+			
+			context.fail(error)
+			
+		} else {
+
+			context.succeed(response)
+		}
+
+		callback(error, response)
+		
+	}
+	server.execute(event, context, customCallback)
+	//callback(null, 'test')
+
 }
