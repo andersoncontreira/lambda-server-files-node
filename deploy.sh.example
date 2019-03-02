@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# bucketname
+bucket="bucketname"
+
+# bucket Key
+bucketKey=lambda-server-files-node
+
+# currnet timestamp
+timestamp=$(date +%s)
+
+# current file
+file="lambda-server-files-node-$timestamp.zip"
+
+fileKey=$bucketKey/$file 
+
+echo "Ziping files...."
+#zips up the new code
+zip -FSr ./tmp/$file . -x *.git* *bin/\* *.zip *tmp/\* deploy.sh
+
+#Updates function code of lambda and pushes new zip file to s3bucket for cloudformation lambda:codeuri source
+echo "copiando os arquivos para o s3 ($bucket/$bucketKey/$file)"
+# copy the zip file
+aws s3 cp ./tmp/$file s3://$bucket/$bucketKey/$file 
+
+echo "Upload lambda function ($1)"
+# $1 = arguments
+# echo "$1"
+
+# lambda function update from zip local
+#aws lambda update-function-code --function-name  "$1" --zip-file fileb://./tmp/lambda-server-files-node-$timestamp.zip
+
+# example
+#aws lambda update-function-code --function-name  "$1" --zip-file fileb://./tmp/lambda-server-files-node-1551580862.zip
+
+# upload from s3
+aws lambda update-function-code --function-name  "$1" --s3-bucket $bucket --s3-key $fileKey
