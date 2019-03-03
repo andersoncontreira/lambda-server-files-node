@@ -4,18 +4,18 @@
   "description": "Simple node server for lambda",
   "main": "handler.js",
   "scripts": {
-    "server": "node test-server.js",
+    "server": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "anderson.contreira@gmail.com",
   "license": "MIT",
   "devDependencies": {
-    "chai": "^4.1.2",
-    "mocha": "^4.0.1",
-    "nodemon": "^1.12.1",
-    "standard": "^10.0.3",
     "body-parser": "^1.18.2",
-    "express": "^4.16.2"
+    "chai": "^4.1.2",
+    "express": "^4.16.2",
+    "mocha": "^4.0.1",
+    "nodemon": "^1.18.10",
+    "standard": "^10.0.3"
   },
   "dependencies": {
     "aws-sdk": "^2.233.1",
